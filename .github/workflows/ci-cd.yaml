@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on: [push]  # Запускать при каждом push в репозиторий
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4  # Шаг 1: Получить код
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'  # Шаг 2: Установить Python
+    
+    - name: Cache pip
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt  # Шаг 3: Установить зависимости
+    
+    - name: Run tests
+      run: |
+        # python manage.py test  # Шаг 4: Запустить тесты
+        
+  deploy:
+    needs: test  # Запускать только если тесты прошли
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: echo "Здесь будет развёртывание на сервер"  # Шаг 5: Развернуть
