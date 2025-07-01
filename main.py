@@ -1,4 +1,4 @@
-# Импортируем всё необходимое из FastAPI и стандартных библиотек
+# Импортируем всё необходимое из FastAPI и стандартных библиотек тест
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta, date
